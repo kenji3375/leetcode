@@ -3,12 +3,6 @@
 using namespace std;
 
 bool isMatch(string s, string p) {
-    
-    const int plen = p.size();
-    const int slen = s.size();
-
-    vector<vector<int>> dp;
-
     /*
 
 
@@ -28,55 +22,46 @@ b
     // }
 
     //assuming the p is going to be correct
+    
+    const int plen = p.size();
+    const int slen = s.size();
 
-    bool correct = true;
-    int i = 0;
-    for (int j=0; j<plen; ++j) {
-        if(!correct || i==slen) {
-            break;
-        }
-        correct ^= (bool)(char)1;
-        
-        // cout<<slen<<endl;
-        // cout<<i<<" "<<j<<endl;
-        cout<<"i:"<<i<<": "<<s[i]<<"  j:"<<j<<": "<<p[j]<<endl;
-        if (j<plen-1) {
-            if(p[j+1] == '*') {
+    vector<vector<bool>> dp(plen+1, vector<bool>(slen+1, false));
 
-                //------
-                // here we check if any amount of character before the * fits;
-                //------
-                
-                
-                if(s[i] != p[j] && p[j] != '.') {
-                    ++i;
-                } else {
-                    while(s[i] == p[j] || p[j] == '.') {
-                        ++i;
-                    }
-                }
-                correct = true;
-                //------
-                ++j;
-            } else {
-                if (p[j] == s[i] || p[j] == '.') {
-                    correct = true;
-                    ++i;
-                }
+
+    // bool correct = true;
+    // int i = 0;
+    dp[0][0]=true;
+    for (int y=0; y<=plen; ++y) {
+        for(int x=0; x<=slen; ++x) {
+            if(y>1 && p[y-1] == '*') {
+                // dp[y][x]=true;
+                if(dp[y-2][x]) {
+                    dp[y][x] = true;
+                } else if(x>0 && dp[y][x-1] && (s[x-1] == p[y-2] || p[y-2] == '.')) {
+                    dp[y][x] = true;
+                } 
+                // else {
+                //     // cout<<endl<<s[x-1]<<" "<<p[y-1]<<endl;
+                // }
+            } else if (y>0 && x>0 && dp[y-1][x-1] && (s[x-1] == p[y-1] || p[y-1] == '.')) {
+                dp[y][x] = true;
             }
-        } else {        //  the last j
-            if(j>0 && p[j] == '*') {
-                while(i<slen && s[i] == p[j-1]) {
-                    ++i;
-                }
-                if(i == slen)   correct = true;
-            }
-            else  if(s[i] == p[j])    correct = true;
         }
     }
 
+    // cout<<s<<endl<<endl;
+    // cout<<" ";
+    // for (int y=0; y<=plen; ++y) {
+    //     cout<<p[y-1]<<":   ";
+    //     for (int x=0; x<=slen; ++x) {
+    //         cout<<(dp[y][x] ? "T":"_")<<".";
+    //     }
+    //     cout<<endl;
+    // }
 
-    return correct;
+    return dp[plen][slen];
+        
 }
 
 
