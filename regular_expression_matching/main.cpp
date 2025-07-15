@@ -5,7 +5,7 @@ using namespace std;
 bool isMatch(string s, string p) {
     
     const int plen = p.size();
-    const int slen = p.size();
+    const int slen = s.size();
 
     vector<vector<int>> dp;
 
@@ -32,9 +32,14 @@ b
     bool correct = true;
     int i = 0;
     for (int j=0; j<plen; ++j) {
-        if(!correct || i==slen)    break;
+        if(!correct || i==slen) {
+            break;
+        }
         correct ^= (bool)(char)1;
-
+        
+        // cout<<slen<<endl;
+        // cout<<i<<" "<<j<<endl;
+        cout<<"i:"<<i<<": "<<s[i]<<"  j:"<<j<<": "<<p[j]<<endl;
         if (j<plen-1) {
             if(p[j+1] == '*') {
 
@@ -43,10 +48,10 @@ b
                 //------
                 
                 
-                if(s[i] != p[j]) {
+                if(s[i] != p[j] && p[j] != '.') {
                     ++i;
                 } else {
-                    while(s[i] == p[j]) {
+                    while(s[i] == p[j] || p[j] == '.') {
                         ++i;
                     }
                 }
@@ -54,7 +59,7 @@ b
                 //------
                 ++j;
             } else {
-                if (p[j] == s[i]) {
+                if (p[j] == s[i] || p[j] == '.') {
                     correct = true;
                     ++i;
                 }
@@ -70,15 +75,30 @@ b
         }
     }
 
-    
+
     return correct;
 }
 
 
 int main (void) {
     string test1="aa",test2="a*";
-    test1="abbba",test2="aba";
     
+    
+    // test1="abbba",test2="aba";
+    // cout<<test1<<" <---> "<<test2<<endl<<(isMatch(test1,test2) ? "match":"don't match")<<endl;
+    // test1="abbba",test2="ab*a";
+    // cout<<test1<<" <---> "<<test2<<endl<<(isMatch(test1,test2) ? "match":"don't match")<<endl;
+    // test1="aa",test2="ab*a";
+    // cout<<test1<<" <---> "<<test2<<endl<<(isMatch(test1,test2) ? "match":"don't match")<<endl;
+    // test1="abbba",test2="aba";
+    // cout<<test1<<" <---> "<<test2<<endl<<(isMatch(test1,test2) ? "match":"don't match")<<endl;
+    // test1="abbba",test2="aba";
+    // cout<<test1<<" <---> "<<test2<<endl<<(isMatch(test1,test2) ? "match":"don't match")<<endl;
+    
+    while(true) {
+        cin >> test1 >> test2;
+        cout<<test1<<" <---> "<<test2<<endl<<(isMatch(test1,test2) ? "match":"don't match")<<endl<<endl<<endl;
+    }
 
-    cout<<test1<<" <---> "<<test2<<endl<<(isMatch(test1,test2) ? "match":"don't match")<<endl;
+
 }
