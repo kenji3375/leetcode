@@ -64,6 +64,32 @@ b
         
 }
 
+/*
+//this one has given me 'beats 100%' on leetcode
+
+bool isMatch(string s, string p) {
+    
+    const int plen = p.size();
+    const int slen = s.size();
+
+    vector<vector<bool>> dp(plen+1, vector<bool>(slen+1, false));
+
+    dp[0][0]=true;
+    for (int y=0; y<=plen; ++y) {
+        for(int x=0; x<=slen; ++x) {
+            if(y>1 && p[y-1] == '*') {
+                if(dp[y-2][x]) dp[y][x] = true;    
+                else if(x>0 && dp[y][x-1] && (s[x-1] == p[y-2] || p[y-2] == '.')) dp[y][x] = true;
+                
+            } else if (y>0 && x>0 && dp[y-1][x-1] && (s[x-1] == p[y-1] || p[y-1] == '.')) {
+                dp[y][x] = true;
+            }
+        }
+    }
+    return dp[plen][slen];  
+}
+
+*/
 
 int main (void) {
     string test1="aa",test2="a*";
