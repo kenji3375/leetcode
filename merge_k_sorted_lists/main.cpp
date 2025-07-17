@@ -23,5 +23,5 @@ struct ListNode {
 };
 
  ListNode* mergeKLists(vector<ListNode*>& lists) {
-        
+    
 }
